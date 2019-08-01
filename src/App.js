@@ -22,23 +22,30 @@ class App extends Component {
   }
 
   setButtonAction = (newName) => {
-    this.setState( {
+    this.setState({
       person: [
         { name: 'Kukku Arju', age: '25' },
         { name: newName, age: '58' },
+        { name: 'Anna Porju', age: '24' }
+      ],
+      otherState: 'some other value',
+      showPerson: false
+    })
+  }
+
+  nameChangeHandler = (event) => {
+    this.setState({
+      person: [
+        { name: 'Kukku Arju nameChangeHandler', age: '25' },
+        { name: event.target.value, age: '58' },
         { name: 'Anna Porju', age: '24' }
       ]
     })
   }
 
-  nameChangeHandler = (event) => {
-    this.setState( {
-      person: [
-        { name: 'Kukku Arju', age: '25' },
-        { name: event.target.value, age: '58' },
-        { name: 'Anna Porju', age: '24' }
-      ]
-    })
+  togglepersonHandler = () => {
+      const doesShow = this.state.showPerson;
+      this.setState({showPerson: !doesShow});
   }
 
   render() {
@@ -46,20 +53,26 @@ class App extends Component {
       <div className="App">
         <h1>Hi i am react App</h1>
         <p>This is really working</p>
-        <Button onClick={() => this.setButtonAction('Pandula Cardo')}>Switch Name</Button>
-        <Person 
-        name={this.state.person[0].name} 
-        age={this.state.person[0].age} 
-        click={this.setButtonAction.bind(this,'My3Cardo')} 
-        />
+        {/* <Button onClick={() => this.setButtonAction('Pandula Cardo')}>Switch Name</Button> */}
+        <Button onClick={() => this.togglepersonHandler()}>Switch Name</Button>
+        {
+          this.state.showPerson === true ?
+            <div>
+              <Person
+                name={this.state.person[0].name}
+                age={this.state.person[0].age}
+                click={this.setButtonAction.bind(this, 'My3Cardo')}
+              />
 
-        <Person name={this.state.person[1].name} 
-        age={this.state.person[1].age} 
-        click={this.setButtonAction.bind(this,'Aponsu')} 
-        changed={this.nameChangeHandler}
-        />
+              <Person name={this.state.person[1].name}
+                age={this.state.person[1].age}
+                click={this.setButtonAction.bind(this, 'Aponsu')}
+                changed={this.nameChangeHandler}
+              />
 
-        <Person name="arju" age="24" />
+              <Person name="arju" age="24" />
+            </div> : <h3>click Button</h3>
+        }
       </div>
     )
   }
